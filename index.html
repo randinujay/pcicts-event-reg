@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>President's College ICT Society – Event Registration</title>
+
+  <!-- ============================================================
+       FONTS
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Fallback: also load Nunito which closely mirrors Product Sans geometry -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
+  </style>
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --navy: #0a0f1e;
+      --navy-mid: #111827;
+      --navy-soft: #1a2540;
+      --panel: #ffffff;
+      --surface: #f4f6fb;
+      --border: #dde3f0;
+      --focus: #1a73e8;
+      --cyan: #06b6d4;
+      --blue: #1a73e8;
+      --blue-dk: #1557b0;
+      --green: #10b981;
+      --green-dk: #059669;
+      --red: #ea4335;
+      --amber: #fbbc04;
+      --txt: #202124;
+      --txt2: #5f6368;
+      --txt3: #9aa0a6;
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 18px;
+      --sh-md: 0 4px 16px rgba(0, 0, 0, .10), 0 2px 6px rgba(0, 0, 0, .06);
+      --sh-lg: 0 12px 40px rgba(0, 0, 0, .14), 0 4px 12px rgba(0, 0, 0, .08);
+      --ease: 180ms cubic-bezier(.4, 0, .2, 1);
+
+      /* Product Sans stack — Google Sans > Nunito > system fallbacks */
+      --font: 'Google Sans', 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--surface);
+      color: var(--txt);
+      min-height: 100vh;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .app-header {
+      background: var(--navy);
+      padding: clamp(10px, 2vw, 14px) clamp(12px, 3vw, 20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -60px;
+      width: 300px;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 40%, rgba(6, 182, 212, .1) 40%);
+      pointer-events: none;
+    }
+
+    .app-header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--cyan), var(--blue));
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(10px, 2vw, 14px);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 13px);
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .brand-icon {
+      width: clamp(36px, 5vw, 44px);
+      height: clamp(36px, 5vw, 44px);
+      min-width: clamp(36px, 5vw, 44px);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(16px, 2.5vw, 19px);
+      box-shadow: 0 0 18px rgba(6, 182, 212, .35);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0em;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-subtitle {
+      font-size: clamp(0.5rem, 1.2vw, 0.58rem);
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* COUNTERS */
+    .counters {
+      display: flex;
+      gap: clamp(4px, 1vw, 8px);
+      flex-shrink: 0;
+    }
+
+    .counter-card {
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r-md);
+      padding: clamp(5px, 1vw, 7px) clamp(8px, 1.5vw, 13px);
+      text-align: center;
+      min-width: clamp(60px, 10vw, 68px);
+      transition: background var(--ease);
+    }
+
+    .counter-card.highlight-update {
+      background: rgba(6, 182, 212, .2);
+      border-color: var(--cyan);
+    }
+
+    .counter-value {
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      transition: transform 260ms cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .counter-value.bump {
+      transform: scale(1.35);
+    }
+
+    .counter-card.total .counter-value {
+      color: var(--cyan);
+    }
+
+    .counter-label {
+      font-size: clamp(0.45rem, 1vw, 0.52rem);
+      font-weight: 700;
+      color: var(--txt3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .app-body {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: clamp(12px, 3vw, 20px) clamp(12px, 3vw, 16px);
+      display: grid;
+      grid-template-columns: minmax(320px, 390px) 1fr;
+      gap: clamp(12px, 2.5vw, 20px);
+      align-items: start;
+    }
+
+    @media (max-width: 940px) {
+      .app-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================================
+       CARD
+    ============================================================ */
+    .card {
+      background: var(--panel);
+      border-radius: var(--r-lg);
+      box-shadow: var(--sh-md);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-soft));
+      padding: clamp(12px, 2vw, 16px) clamp(14px, 2.5vw, 20px);
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-header-icon {
+      width: clamp(28px, 4vw, 32px);
+      height: clamp(28px, 4vw, 32px);
+      background: rgba(6, 182, 212, .2);
+      border: 1px solid rgba(6, 182, 212, .4);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(14px, 2vw, 16px);
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    .card-body {
+      padding: clamp(14px, 2.5vw, 18px);
+    }
+
+    /* ============================================================
+       TYPE SELECTOR
+    ============================================================ */
+    .type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(6px, 1.5vw, 10px);
+      margin-bottom: clamp(14px, 2.5vw, 18px);
+    }
+
+    .type-btn {
+      padding: clamp(10px, 2vw, 13px) clamp(8px, 1.5vw, 10px);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      background: var(--surface);
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: clamp(0.7rem, 1.5vw, 0.76rem);
+      font-weight: 700;
+      color: var(--txt2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(4px, 1vw, 6px);
+      transition: all var(--ease);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .type-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: #e8f0fe;
+    }
+
+    .type-btn.active {
+      border-color: var(--blue);
+      background: linear-gradient(135deg, #e8f0fe, #d2e3fc);
+      color: var(--blue-dk);
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, .12);
+    }
+
+    .type-btn-icon {
+      font-size: clamp(18px, 3vw, 21px);
+    }
+
+    /* ============================================================
+       FORM
+    ============================================================ */
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(10px, 2vw, 13px);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 1vw, 5px);
+    }
+
+    .form-group.hidden {
+      display: none;
+    }
+
+    label {
+      font-size: clamp(0.6rem, 1.2vw, 0.63rem);
+      font-weight: 700;
+      color: var(--txt2);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .req {
+      width: 5px;
+      height: 5px;
+      background: var(--red);
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    /* All inputs and selects share the same style */
+    input[type="text"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: clamp(10px, 1.8vw, 11px) clamp(12px, 2vw, 14px);
+      font-family: var(--font);
+      font-size: clamp(0.85rem, 1.8vw, 0.93rem);
+      font-weight: 500;
+      color: var(--txt);
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      outline: none;
+      transition: border-color var(--ease), box-shadow var(--ease), background var(--ease);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    select:focus {
+      border-color: var(--focus);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(26, 115, 232, .1);
+    }
+
+    input::placeholder {
+      color: var(--txt3);
+      font-weight: 400;
+      font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+    }
+
+    /* Birthday trailing hint */
+    .bday-hint {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--txt3);
+      pointer-events: none;
+      letter-spacing: 0.04em;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%239aa0a6' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    select option {
+      font-family: var(--font);
+    }
+
+    /* ============================================================
+       SUBMIT BUTTON
+    ============================================================ */
+    .submit-btn {
+      width: 100%;
+      margin-top: 4px;
+      padding: clamp(12px, 2vw, 14px) clamp(14px, 2.5vw, 18px);
+      background: linear-gradient(135deg, var(--blue), var(--blue-dk));
+      color: #fff;
+      border: none;
+      border-radius: var(--r-md);
+      font-family: var(--font);
+      font-size: clamp(0.8rem, 1.8vw, 0.88rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--ease);
+      box-shadow: 0 4px 14px rgba(26, 115, 232, .35);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(26, 115, 232, .45);
+    }
+
+    .submit-btn:active {
+      transform: none;
+    }
+
+    .submit-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ============================================================
+       STATUS BAR
+    ============================================================ */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 14px);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      font-size: clamp(0.58rem, 1.2vw, 0.62rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--txt3);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    .status-dot.offline {
+      background: var(--amber);
+      box-shadow: 0 0 6px var(--amber);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    /* ============================================================
+       RIGHT COLUMN
+    ============================================================ */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(10px, 2vw, 14px);
+    }
+
+    .util-bar {
+      display: flex;
+      gap: clamp(6px, 1.5vw, 10px);
+      flex-wrap: wrap;
+    }
+
+    .util-btn {
+      padding: clamp(7px, 1.5vw, 9px) clamp(12px, 2.5vw, 16px);
+      border-radius: var(--r-md);
+      font-family: var(--font);
+      font-size: clamp(0.68rem, 1.4vw, 0.73rem);
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--ease);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .util-btn.export {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(16, 185, 129, .3);
+    }
+
+    .util-btn.export:hover {
+      background: var(--green-dk);
+      transform: translateY(-1px);
+    }
+
+    .util-btn.danger {
+      background: transparent;
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    .util-btn.danger:hover {
+      background: var(--red);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       TABLE
+    ============================================================ */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--r-lg);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    .reg-table thead tr {
+      background: #f8fafd;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .reg-table th {
+      padding: clamp(10px, 1.8vw, 14px) clamp(8px, 1.5vw, 12px);
+      text-align: left;
+      font-size: clamp(0.7rem, 1.4vw, 0.75rem);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      background: #f8fafd;
+    }
+
+    .reg-table th:first-child {
+      border-radius: var(--r-md) 0 0 0;
+      padding-left: clamp(12px, 2vw, 16px);
+    }
+
+    .reg-table th:last-child {
+      border-radius: 0 var(--r-md) 0 0;
+      padding-right: clamp(12px, 2vw, 16px);
+    }
+
+    .reg-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background var(--ease);
+    }
+
+    .reg-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .reg-table tbody tr:hover {
+      background: #f0f5ff;
+    }
+
+    .reg-table td {
+      padding: clamp(8px, 1.5vw, 12px) clamp(8px, 1.5vw, 12px);
+      font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+      color: var(--txt);
+      vertical-align: middle;
+    }
+
+    .reg-table td:first-child {
+      padding-left: clamp(12px, 2vw, 16px);
+    }
+
+    .reg-table td:last-child {
+      padding-right: clamp(12px, 2vw, 16px);
+    }
+
+    .num-cell {
+      color: var(--txt3);
+      font-size: clamp(0.6rem, 1.3vw, 0.68rem);
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: clamp(0.55rem, 1.2vw, 0.58rem);
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge.internal {
+      background: #d2e3fc;
+      color: var(--blue-dk);
+    }
+
+    .badge.external {
+      background: #d1fae5;
+      color: var(--green-dk);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: clamp(30px, 6vw, 44px) clamp(15px, 3vw, 20px);
+      color: var(--txt3);
+      font-size: clamp(0.75rem, 1.5vw, 0.8rem);
+      font-weight: 500;
+    }
+
+    .empty-state .ei {
+      font-size: clamp(28px, 5vw, 36px);
+      margin-bottom: 10px;
+      opacity: .4;
+    }
+
+    @keyframes rowSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+        background: #d2e3fc;
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .row-new {
+      animation: rowSlideIn 600ms ease forwards;
+    }
+
+    /* ============================================================
+       KEYBOARD HINT
+    ============================================================ */
+    .kb-hint {
+      font-size: clamp(0.58rem, 1.2vw, 0.61rem);
+      font-weight: 600;
+      color: var(--txt3);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-bottom: 2px solid #c8d3e8;
+      border-radius: 5px;
+      font-family: var(--font);
+      font-size: clamp(0.6rem, 1.2vw, 0.62rem);
+      color: var(--txt2);
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 30, .6);
+      backdrop-filter: blur(4px);
+      z-index: 8000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--panel);
+      border-radius: var(--r-lg);
+      padding: clamp(20px, 4vw, 26px);
+      max-width: 340px;
+      width: 90%;
+      box-shadow: var(--sh-lg);
+      transform: scale(.95);
+      transition: transform 200ms cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1);
+    }
+
+    .modal h3 {
+      font-size: clamp(0.9rem, 2vw, 0.98rem);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      font-size: clamp(0.78rem, 1.6vw, 0.82rem);
+      color: var(--txt2);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: clamp(7px, 1.5vw, 9px) clamp(13px, 2.5vw, 17px);
+      border-radius: var(--r-md);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: clamp(0.75rem, 1.6vw, 0.8rem);
+      cursor: pointer;
+      border: none;
+      transition: all var(--ease);
+    }
+
+    .modal-btn.cancel {
+      background: var(--surface);
+      color: var(--txt2);
+      border: 2px solid var(--border);
+    }
+
+    .modal-btn.cancel:hover {
+      background: var(--border);
+    }
+
+    .modal-btn.confirm-del {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .modal-btn.confirm-del:hover {
+      background: #c5221f;
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    #toast-container {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--navy);
+      color: #fff;
+      padding: 11px 16px;
+      border-radius: var(--r-md);
+      font-size: clamp(0.72rem, 1.5vw, 0.78rem);
+      font-weight: 600;
+      box-shadow: var(--sh-lg);
+      pointer-events: all;
+      animation: toastIn 300ms cubic-bezier(.34, 1.56, .64, 1) forwards;
+      border-left: 4px solid var(--green);
+      max-width: 290px;
+    }
+
+    .toast.error {
+      border-left-color: var(--red);
+    }
+
+    .toast.warning {
+      border-left-color: var(--amber);
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px) scale(.9)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1)
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1;
+        transform: translateX(0) scale(1)
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(40px) scale(.9)
+      }
+    }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+    @media (max-width: 580px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-brand {
+        width: 100%;
+      }
+
+      .brand-title {
+        white-space: normal;
+        word-break: break-word;
+      }
+
+      .counters {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .counter-card {
+        flex: 1;
+        min-width: unset;
+      }
+
+      .util-bar {
+        flex-direction: column;
+      }
+
+      .util-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .app-body {
+        padding: 8px 8px;
+      }
+
+      .type-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .type-btn {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .kb-hint {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .modal {
+        width: 95%;
+        padding: 18px;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+
+      .modal-btn {
+        width: 100%;
+      }
+    }
+
+    /* Fix for very small devices */
+    @media (max-width: 360px) {
+      .counter-card {
+        padding: 4px 6px;
+      }
+
+      .counter-value {
+        font-size: 1rem;
+      }
+
+      .counter-label {
+        font-size: 0.4rem;
+      }
+
+      .reg-table th,
+      .reg-table td {
+        padding: 6px 4px;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="toast-container"></div>
+
+  <!-- CONFIRM MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h3>⚠️ Clear All Data?</h3>
+      <p>This will permanently delete all registrations from local storage and the table. This cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="modal-cancel">Cancel</button>
+        <button class="modal-btn confirm-del" id="modal-confirm">Yes, Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="brand-icon">💻</div>
+        <div class="brand-text">
+          <div class="brand-title">President's College ICT Society</div>
+          <div class="brand-subtitle">Event Registration System</div>
+        </div>
+      </div>
+      <div class="counters">
+        <div class="counter-card" id="counter-internal">
+          <div class="counter-value" id="cnt-internal">0</div>
+          <div class="counter-label">Internal</div>
+        </div>
+        <div class="counter-card" id="counter-external">
+          <div class="counter-value" id="cnt-external">0</div>
+          <div class="counter-label">External</div>
+        </div>
+        <div class="counter-card total" id="counter-total">
+          <div class="counter-value" id="cnt-total">0</div>
+          <div class="counter-label">Total</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN
+  ============================================================ -->
+  <main class="app-body">
+
+    <!-- LEFT: Form -->
+    <section>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">✍️</div>
+          <span class="card-title">New Registration</span>
+        </div>
+        <div class="card-body">
+
+          <!-- Participant type -->
+          <div class="type-selector">
+            <button class="type-btn active" id="btn-internal" onclick="setType('internal')">
+              <span class="type-btn-icon">🏫</span>Internal Participant
+            </button>
+            <button class="type-btn" id="btn-external" onclick="setType('external')">
+              <span class="type-btn-icon">🌐</span>External Participant
+            </button>
+          </div>
+
+          <form class="form-grid" id="reg-form" onsubmit="return false;">
+
+            <!-- Name -->
+            <div class="form-group">
+              <label for="f-name"><span class="req"></span> Full Name</label>
+              <input type="text" id="f-name" placeholder="Enter full name" autocomplete="off" />
+            </div>
+
+            <!-- Birthday — typable, auto-formats DD/MM/YYYY -->
+            <div class="form-group">
+              <label for="f-birthday"><span class="req"></span> Date of Birth</label>
+              <div class="input-wrap">
+                <input type="text" id="f-birthday" placeholder="DD/MM/YYYY" maxlength="10" autocomplete="off"
+                  inputmode="numeric" />
+                <span class="bday-hint" id="bday-hint"></span>
+              </div>
+            </div>
+
+            <!-- School — DROPDOWN (external only) -->
+            <div class="form-group hidden" id="grp-school">
+              <label for="f-school"><span class="req"></span> School / Institution</label>
+              <select id="f-school">
+                <option value="">— Select School —</option>
+                <option value="Nalanda (Boys') National College">Nalanda (Boys') National College, Minuwangoda</option>
+                <option value="Nalanda (Girls') Central College, Minuwangoda">Nalanda (Girls') Central College,
+                  Minuwangoda</option>
+                <option value="Senarath Paranavithana National School, Udugampola">Senarath Paranavithana National
+                  School, Udugampola</option>
+                <option value="Reggie Ranathunga Science College, Minuwangoda">Reggie Ranathunga Science College,
+                  Minuwangoda</option>
+                <option value="Bandaranayake Central College, Veyangoda">Bandaranayake Central College, Veyangoda
+                </option>
+                <option value="Bandaranayake College, Gampaha">Bandaranayake College, Gampaha</option>
+                <option value="Other">Other (type below)</option>
+              </select>
+            </div>
+
+            <!-- Other school — shown only when "Other" is picked -->
+            <div class="form-group hidden" id="grp-school-other">
+              <label for="f-school-other"><span class="req"></span> Specify School</label>
+              <input type="text" id="f-school-other" placeholder="Enter school name" autocomplete="off" />
+            </div>
+
+            <!-- Grade -->
+            <div class="form-group">
+              <label for="f-grade"><span class="req"></span> Grade</label>
+              <select id="f-grade" onchange="onGradeChange()">
+                <option value="">— Select Grade —</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+                <option value="Grade 13">Grade 13</option>
+                <option value="After O/L">After O/L</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Stream (grade 12/13 only) -->
+            <div class="form-group hidden" id="grp-stream">
+              <label for="f-stream"><span class="req"></span> Stream</label>
+              <select id="f-stream">
+                <option value="">— Select Stream —</option>
+                <option value="Physical Science">Physical Science</option>
+                <option value="Biological Science">Biological Science</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Arts">Arts</option>
+                <option value="Technology">Technology</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Contact -->
+            <div class="form-group">
+              <label for="f-contact"><span class="req"></span> Contact Number</label>
+              <input type="tel" id="f-contact" placeholder="07X XXX XXXX" autocomplete="off" inputmode="numeric" maxlength="10" />
+            </div>
+
+            <div class="kb-hint">
+              <kbd>Enter</kbd> advances &nbsp;·&nbsp; <kbd>Enter</kbd> on last field submits
+            </div>
+
+            <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+              <span>✅</span>
+              <span id="submit-label">Register Participant</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="status-bar">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="status-text">Ready – syncing to Google Sheets</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Utilities + Table -->
+    <section class="right-col">
+      <div class="util-bar">
+        <button class="util-btn export" onclick="exportCSV()">⬇️ Export CSV</button>
+        <button class="util-btn danger" onclick="openModal()">🗑️ Clear All Data</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">📋</div>
+          <span class="card-title">Live Registrations</span>
+        </div>
+        <div class="table-wrapper">
+          <table class="reg-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TYPE</th>
+                <th>NAME</th>
+                <th>SCHOOL</th>
+                <th>GRADE</th>
+                <th>STREAM</th>
+                <th>CONTACT</th>
+              </tr>
+            </thead>
+            <tbody id="reg-tbody"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state">
+            <div class="ei">📝</div>
+            No registrations yet. Start registering participants!
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <script>
+    /* ============================================================
+       CONFIG — paste your Apps Script URL here
+    ============================================================ */
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYPyANotU50C8_lzX9o51ahuRD0rtwgtRvjJ2SDYZ9LEkQzrK0gOJeB60xgcQX9k65OA/exec";
+
+    /* ============================================================
+       STATE
+    ============================================================ */
+    let participantType = 'internal';
+    let registrations = [];
+
+    /* ============================================================
+       DOM REFS
+    ============================================================ */
+    const fName = document.getElementById('f-name');
+    const fBirthday = document.getElementById('f-birthday');
+    const fSchool = document.getElementById('f-school');
+    const fSchoolOther = document.getElementById('f-school-other');
+    const fGrade = document.getElementById('f-grade');
+    const fStream = document.getElementById('f-stream');
+    const fContact = document.getElementById('f-contact');
+    const grpSchool = document.getElementById('grp-school');
+    const grpSchoolOther = document.getElementById('grp-school-other');
+    const grpStream = document.getElementById('grp-stream');
+
+    /* ============================================================
+       INIT
+    ============================================================ */
+    function init() {
+      try {
+        const s = localStorage.getItem('ict_registrations');
+        if (s) registrations = JSON.parse(s);
+      } catch (e) { }
+      renderTable();
+      updateCounters();
+      setupKeyboardNav();
+      setupBirthdayFmt();
+      setupSchoolDropdown();
+      setupContactValidation();
+      setType('internal');
+      fName.focus();
+    }
+
+    /* ============================================================
+       PARTICIPANT TYPE
+    ============================================================ */
+    function setType(type) {
+      participantType = type;
+      document.getElementById('btn-internal').classList.toggle('active', type === 'internal');
+      document.getElementById('btn-external').classList.toggle('active', type === 'external');
+      if (type === 'internal') {
+        grpSchool.classList.add('hidden');
+        grpSchoolOther.classList.add('hidden');
+        fSchool.value = '';
+        fSchoolOther.value = '';
+      } else {
+        grpSchool.classList.remove('hidden');
+      }
+    }
+
+    /* ============================================================
+       SCHOOL DROPDOWN — show "Other" text input when needed
+    ============================================================ */
+    function setupSchoolDropdown() {
+      fSchool.addEventListener('change', function () {
+        if (this.value === 'Other') {
+          grpSchoolOther.classList.remove('hidden');
+          fSchoolOther.focus();
+        } else {
+          grpSchoolOther.classList.add('hidden');
+          fSchoolOther.value = '';
+        }
+      });
+    }
+
+    /* ============================================================
+       GRADE → STREAM
+    ============================================================ */
+    function onGradeChange() {
+      const g = fGrade.value;
+      if (g === 'Grade 12' || g === 'Grade 13') {
+        grpStream.classList.remove('hidden');
+      } else {
+        grpStream.classList.add('hidden');
+        fStream.value = '';
+      }
+    }
+
+    /* ============================================================
+       BIRTHDAY AUTO-FORMAT  DD/MM/YYYY
+    ============================================================ */
+    function setupBirthdayFmt() {
+      fBirthday.addEventListener('input', function () {
+        const raw = this.value.replace(/\D/g, '').substring(0, 8);
+        let out = raw.substring(0, 2);
+        if (raw.length >= 3) out += '/' + raw.substring(2, 4);
+        if (raw.length >= 5) out += '/' + raw.substring(4, 8);
+        this.value = out;
+        const hint = document.getElementById('bday-hint');
+        hint.textContent = out.length < 10 ? 'DD/MM/YYYY'.substring(out.length) : '';
+      });
+
+      fBirthday.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace') {
+          const pos = this.selectionStart;
+          if (pos > 0 && this.value[pos - 1] === '/') {
+            this.value = this.value.substring(0, pos - 1) + this.value.substring(pos);
+            e.preventDefault();
+          }
+        }
+      });
+    }
+
+    /* ============================================================
+       CONTACT VALIDATION — 10-digit limit
+    ============================================================ */
+    function setupContactValidation() {
+      fContact.addEventListener('input', function () {
+        // Remove any non-digit characters
+        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+      });
+
+      fContact.addEventListener('keydown', function (e) {
+        // Allow only digits, backspace, delete, tab, escape, enter, arrows
+        if (e.key.length === 1 && !/[0-9]/.test(e.key) && 
+            e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab' && 
+            e.key !== 'Escape' && e.key !== 'Enter' && !e.key.startsWith('Arrow')) {
+          e.preventDefault();
+        }
+      });
+    }
+
+    /* ============================================================
+       KEYBOARD NAV — Enter chains through visible fields
+    ============================================================ */
+    function setupKeyboardNav() {
+      document.getElementById('reg-form').addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        const fields = getVisibleFields();
+        const idx = fields.indexOf(document.activeElement);
+        if (idx === -1) return;
+        if (idx < fields.length - 1) {
+          fields[idx + 1].focus();
+        } else {
+          handleSubmit();
+        }
+      });
+    }
+
+    function getVisibleFields() {
+      const list = [fName, fBirthday];
+      if (participantType === 'external') {
+        list.push(fSchool);
+        if (fSchool.value === 'Other') list.push(fSchoolOther);
+      }
+      list.push(fGrade);
+      if (fGrade.value === 'Grade 12' || fGrade.value === 'Grade 13') list.push(fStream);
+      list.push(fContact);
+      return list;
+    }
+
+    /* ============================================================
+       BIRTHDAY VALIDATION
+    ============================================================ */
+    function validateBday(str) {
+      if (!str || str.length !== 10) return false;
+      const [dd, mm, yyyy] = str.split('/').map(Number);
+      if (!dd || !mm || !yyyy || yyyy < 1900 || yyyy > new Date().getFullYear()) return false;
+      const d = new Date(yyyy, mm - 1, dd);
+      return d.getDate() === dd && d.getMonth() === mm - 1 && d.getFullYear() === yyyy;
+    }
+
+    /* ============================================================
+       SUBMIT
+    ============================================================ */
+    async function handleSubmit() {
+      const name = fName.value.trim();
+      const bday = fBirthday.value.trim();
+      const grade = fGrade.value;
+      const stream = fStream.value;
+      const contact = fContact.value.trim();
+
+      // Resolve school value
+      let school;
+      if (participantType === 'internal') {
+        school = "President's College, Minuwangoda";
+      } else if (fSchool.value === 'Other') {
+        school = fSchoolOther.value.trim();
+      } else {
+        school = fSchool.value;
+      }
+
+      // Validation
+      if (!name) { showToast('Name is required.', 'error'); fName.focus(); return; }
+      if (!validateBday(bday)) { showToast('Enter a valid date (DD/MM/YYYY).', 'error'); fBirthday.focus(); return; }
+      if (participantType === 'external') {
+        if (!fSchool.value) { showToast('Please select a school.', 'error'); fSchool.focus(); return; }
+        if (fSchool.value === 'Other' && !school) {
+          showToast('Please specify the school name.', 'error'); fSchoolOther.focus(); return;
+        }
+      }
+      if (!grade) { showToast('Please select a Grade.', 'error'); fGrade.focus(); return; }
+      if ((grade === 'Grade 12' || grade === 'Grade 13') && !stream) {
+        showToast('Please select a Stream.', 'error'); fStream.focus(); return;
+      }
+      if (!contact) { showToast('Contact Number is required.', 'error'); fContact.focus(); return; }
+      if (contact.length !== 10) { showToast('Contact Number must be 10 digits.', 'error'); fContact.focus(); return; }
+
+      const record = {
+        id: Date.now(), participantType,
+        name, birthday: bday, school, grade,
+        stream: stream || '—', contact,
+        timestamp: new Date().toISOString(),
+      };
+
+      registrations.unshift(record);
+      saveLocal();
+      renderTable();
+      updateCounters();
+      resetForm();
+      showToast(`✅ ${name} registered!`);
+      sendToSheets(record);
+    }
+
+    /* ============================================================
+       GOOGLE SHEETS SYNC
+    ============================================================ */
+    async function sendToSheets(record) {
+      if (SCRIPT_URL === "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") return;
+      setStatus(false, 'Syncing…');
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+        setStatus(true, 'Synced to Google Sheets');
+      } catch (err) {
+        console.error(err);
+        setStatus(false, 'Offline – saved locally');
+        showToast('⚠️ Sync failed – saved locally.', 'warning');
+      }
+    }
+
+    /* ============================================================
+       LOCAL STORAGE
+    ============================================================ */
+    function saveLocal() {
+      localStorage.setItem('ict_registrations', JSON.stringify(registrations));
+    }
+
+    /* ============================================================
+       FORM RESET
+    ============================================================ */
+    function resetForm() {
+      fName.value = '';
+      fBirthday.value = '';
+      document.getElementById('bday-hint').textContent = '';
+      fSchool.value = '';
+      fSchoolOther.value = '';
+      grpSchoolOther.classList.add('hidden');
+      fGrade.value = '';
+      fStream.value = '';
+      fContact.value = '';
+      grpStream.classList.add('hidden');
+      fName.focus();
+    }
+
+    /* ============================================================
+       COUNTERS
+    ============================================================ */
+    function updateCounters() {
+      bump('cnt-internal', registrations.filter(r => r.participantType === 'internal').length, 'counter-internal');
+      bump('cnt-external', registrations.filter(r => r.participantType === 'external').length, 'counter-external');
+      bump('cnt-total', registrations.length, 'counter-total');
+    }
+
+    function bump(vid, val, cid) {
+      const el = document.getElementById(vid);
+      const ca = document.getElementById(cid);
+      if (parseInt(el.textContent, 10) === val) return;
+      el.textContent = val;
+      el.classList.add('bump'); ca.classList.add('highlight-update');
+      setTimeout(() => el.classList.remove('bump'), 300);
+      setTimeout(() => ca.classList.remove('highlight-update'), 800);
+    }
+
+    /* ============================================================
+       TABLE RENDER
+    ============================================================ */
+    function renderTable() {
+      const tbody = document.getElementById('reg-tbody');
+      const empty = document.getElementById('empty-state');
+      if (!registrations.length) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        return;
+      }
+      empty.style.display = 'none';
+
+      let html = '';
+      for (let i = 0; i < registrations.length; i++) {
+        const r = registrations[i];
+        const rowNum = registrations.length - i;
+        const type_badge = r.participantType === 'internal'
+          ? '<span class="badge internal">🏫 Int</span>'
+          : '<span class="badge external">🌐 Ext</span>';
+
+        html += `<tr class="${i === 0 ? 'row-new' : ''}">
+      <td class="num-cell">${rowNum}</td>
+      <td>${type_badge}</td>
+      <td><strong>${escapeHtml(r.name)}</strong></td>
+      <td>${escapeHtml(r.school)}</td>
+      <td>${escapeHtml(r.grade)}</td>
+      <td>${escapeHtml(r.stream)}</td>
+      <td>${escapeHtml(r.contact)}</td>
+    </tr>`;
+      }
+      tbody.innerHTML = html;
+    }
+
+    /* ============================================================
+       HTML ESCAPE
+    ============================================================ */
+    function escapeHtml(s) {
+      if (s === undefined || s === null) return '';
+      // Don't escape if it's already HTML with tags
+      if (typeof s === 'string' && (s.includes('<span') || s.includes('<strong'))) {
+        return s;
+      }
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* ============================================================
+       EXPORT CSV
+    ============================================================ */
+    function exportCSV() {
+      if (!registrations.length) { showToast('No registrations to export.', 'warning'); return; }
+      const h = ['#', 'Type', 'Name', 'Birthday', 'School', 'Grade', 'Stream', 'Contact', 'Timestamp'];
+      const rows = registrations.map((r, i) =>
+        [registrations.length - i, r.participantType, r.name, r.birthday,
+        r.school, r.grade, r.stream, r.contact, r.timestamp]
+          .map(v => `"${String(v).replace(/"/g, '""')}"`)
+      );
+      const csv = [h.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ict-registrations-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`📥 Exported ${registrations.length} records.`);
+    }
+
+    /* ============================================================
+       CLEAR MODAL
+    ============================================================ */
+    function openModal() { document.getElementById('modal-overlay').classList.add('open'); }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+    document.getElementById('modal-confirm').addEventListener('click', () => {
+      registrations = [];
+      saveLocal(); renderTable(); updateCounters(); closeModal();
+      showToast('🗑️ All data cleared.', 'warning');
+    });
+
+    /* ============================================================
+       STATUS BAR
+    ============================================================ */
+    function setStatus(online, msg) {
+      document.getElementById('status-dot').className = 'status-dot' + (online ? '' : ' offline');
+      document.getElementById('status-text').textContent = msg;
+    }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    function showToast(msg, type = 'success') {
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = `toast ${type !== 'success' ? type : ''}`;
+      t.textContent = msg;
+      c.appendChild(t);
+      setTimeout(() => {
+        t.style.animation = 'toastOut 300ms ease forwards';
+        setTimeout(() => t.remove(), 300);
+      }, 3000);
+    }
+
+    /* ============================================================
+       HTML ESCAPE (legacy, kept for compatibility)
+    ============================================================ */
+    function escHtml(s) {
+      if (typeof s !== 'string') return s;
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    /* START */
+    init();
+  </script>
+</body>
+
+</html>
