@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <title>President's College ICT Society – Event Registration</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & GLOBAL SAFETY
+    ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      font-family: 'Google Sans', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f4f6fb;
+      color: #202124;
+      line-height: 1.5;
+      font-size: 1rem;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --navy: #0a0f1e;
+      --navy-mid: #111827;
+      --navy-soft: #1a2540;
+      --panel: #ffffff;
+      --surface: #f4f6fb;
+      --border: #dde3f0;
+      --focus: #1a73e8;
+      --focus-glow: rgba(26,115,232,0.18);
+      --cyan: #06b6d4;
+      --blue: #1a73e8;
+      --blue-dk: #1557b0;
+      --green: #10b981;
+      --green-dk: #059669;
+      --red: #ea4335;
+      --amber: #fbbc04;
+      --txt: #202124;
+      --txt2: #5f6368;
+      --txt3: #9aa0a6;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+
+      --ease: 200ms cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ============================================================
+       UTILITY CLASSES
+    ============================================================ */
+    .hidden {
+      display: none !important;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .app-header {
+      background: var(--navy);
+      padding: 0.75rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--cyan), var(--blue));
+    }
+
+    .header-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+    }
+
+    .brand-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .brand-title {
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .brand-subtitle {
+      font-size: clamp(0.6rem, 2vw, 0.7rem);
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       COUNTERS
+    ============================================================ */
+    .counters {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .counter-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.25rem;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .counter-card.highlight-update {
+      background: rgba(6, 182, 212, 0.2);
+    }
+
+    .counter-value {
+      font-size: clamp(1.2rem, 6vw, 1.8rem);
+      font-weight: 700;
+      color: #fff;
+      transition: transform 0.2s;
+    }
+
+    .counter-value.bump {
+      transform: scale(1.15);
+    }
+
+    .counter-card.total .counter-value {
+      color: var(--cyan);
+    }
+
+    .counter-label {
+      font-size: clamp(0.55rem, 2vw, 0.65rem);
+      font-weight: 600;
+      color: var(--txt3);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       MAIN BODY
+    ============================================================ */
+    .app-body {
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-items: start;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       CARD
+    ============================================================ */
+    .card {
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-soft));
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+    }
+
+    .card-header-icon {
+      font-size: 1.25rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .card-body {
+      padding: 1.25rem 1rem;
+    }
+
+    /* ============================================================
+       TYPE BUTTONS
+    ============================================================ */
+    .type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .type-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.75rem 0.5rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .type-btn.active {
+      border-color: var(--blue);
+      background: #e8f0fe;
+    }
+
+    .type-btn-icon {
+      font-size: 1.1rem;
+    }
+
+    /* ============================================================
+       FORM
+    ============================================================ */
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--txt2);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .req::after {
+      content: '*';
+      color: var(--red);
+      margin-left: 0.2rem;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.75rem 0.875rem;
+      font-size: 1rem;
+      color: var(--txt);
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: border 0.15s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px var(--focus-glow);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .bday-hint {
+      position: absolute;
+      right: 1rem;
+      color: var(--txt3);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    .kb-hint {
+      font-size: 0.75rem;
+      color: var(--txt3);
+      background: #f1f3f8;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      margin-top: -0.5rem;
+    }
+
+    kbd {
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      padding: 0.1rem 0.4rem;
+      font-size: 0.7rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 54px;
+      padding: 0.875rem 1rem;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dk));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:active {
+      opacity: 0.9;
+    }
+
+    /* ============================================================
+       STATUS BAR
+    ============================================================ */
+    .status-bar {
+      background: #f1f3f8;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 2px rgba(16,185,129,0.2);
+    }
+
+    .status-dot.offline {
+      background: var(--amber);
+    }
+
+    /* ============================================================
+       UTILITY BUTTONS
+    ============================================================ */
+    .util-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .util-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .util-btn.export {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .util-btn.danger {
+      background: transparent;
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    /* ============================================================
+       TABLE
+    ============================================================ */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .reg-table th {
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      background: #f9fbfd;
+    }
+
+    .reg-table td {
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      word-break: break-word;
+      vertical-align: middle;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .badge.internal {
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .badge.external {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .row-new {
+      animation: highlight 1s ease-out;
+    }
+
+    @keyframes highlight {
+      0% { background: #e8f0fe; }
+      100% { background: transparent; }
+    }
+
+    .num-cell {
+      font-weight: 600;
+      color: var(--txt2);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--txt3);
+      font-size: 0.9rem;
+    }
+
+    .ei {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.5;
+    }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    #toast-container {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #323232;
+      color: white;
+      padding: 0.875rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      animation: slideIn 0.3s ease;
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+      pointer-events: auto;
+    }
+
+    .toast.error {
+      background: #d32f2f;
+    }
+
+    .toast.warning {
+      background: #f57c00;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 400px;
+      width: 100%;
+      padding: 1.5rem 1.25rem;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1);
+    }
+
+    .modal h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: var(--red);
+    }
+
+    .modal p {
+      margin-bottom: 1.5rem;
+      color: var(--txt2);
+      font-size: 0.95rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-btn.cancel {
+      background: #f1f3f8;
+      color: var(--txt);
+    }
+
+    .modal-btn.confirm-del {
+      background: var(--red);
+      color: white;
+    }
+
+    /* ============================================================
+       TABLET & DESKTOP
+    ============================================================ */
+    @media (min-width: 640px) {
+      .header-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .counters {
+        width: auto;
+        min-width: 240px;
+      }
+
+      .util-bar {
+        flex-direction: row;
+      }
+
+      .util-btn {
+        width: auto;
+        flex: 1;
+      }
+
+      #toast-container {
+        left: auto;
+        right: 1rem;
+        width: auto;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .app-body {
+        padding: 1.25rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .app-body {
+        grid-template-columns: minmax(340px, 420px) 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .brand-title {
+        font-size: 1.3rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.7rem;
+      }
+    }
+
+    /* ============================================================
+       MOBILE TABLE STACK (unchanged but polished)
+    ============================================================ */
+    @media (max-width: 600px) {
+      .reg-table thead {
+        display: none;
+      }
+
+      .reg-table,
+      .reg-table tbody,
+      .reg-table tr,
+      .reg-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .reg-table tr {
+        background: #fff;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid var(--border);
+      }
+
+      .reg-table td {
+        border: none;
+        padding: 0.35rem 0;
+        display: flex;
+        align-items: baseline;
+      }
+
+      .reg-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        width: 85px;
+        min-width: 85px;
+        color: var(--txt2);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+      }
+
+      .badge {
+        display: inline-block;
+      }
+    }
+
+    /* ============================================================
+       EXTRA SMALL DEVICES (<= 400px)
+    ============================================================ */
+    @media (max-width: 400px) {
+      .type-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
+      }
+
+      .counter-value {
+        font-size: 1.2rem;
+      }
+
+      .counter-label {
+        font-size: 0.5rem;
+      }
+
+      .card-body {
+        padding: 1rem 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h3>⚠️ Clear All Data?</h3>
+      <p>This will permanently delete all registrations from local storage. This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="modal-cancel">Cancel</button>
+        <button class="modal-btn confirm-del" id="modal-confirm">Yes, Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="brand-icon">💻</div>
+        <div class="brand-text">
+          <div class="brand-title">President's College ICT Society</div>
+          <div class="brand-subtitle">Event Registration System</div>
+        </div>
+      </div>
+      <div class="counters">
+        <div class="counter-card" id="counter-internal">
+          <div class="counter-value" id="cnt-internal">0</div>
+          <div class="counter-label">Internal</div>
+        </div>
+        <div class="counter-card" id="counter-external">
+          <div class="counter-value" id="cnt-external">0</div>
+          <div class="counter-label">External</div>
+        </div>
+        <div class="counter-card total" id="counter-total">
+          <div class="counter-value" id="cnt-total">0</div>
+          <div class="counter-label">Total</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-body">
+    <!-- Left Column: Registration Form -->
+    <section>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">✍️</div>
+          <span class="card-title">New Registration</span>
+        </div>
+        <div class="card-body">
+          <!-- Participant Type Selector -->
+          <div class="type-selector">
+            <button class="type-btn active" id="btn-internal" onclick="setType('internal')">
+              <span class="type-btn-icon">🏫</span>Internal
+            </button>
+            <button class="type-btn" id="btn-external" onclick="setType('external')">
+              <span class="type-btn-icon">🌐</span>External
+            </button>
+          </div>
+
+          <form class="form-grid" id="reg-form" onsubmit="return false;">
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="f-name"><span class="req"></span> Full Name</label>
+              <input type="text" id="f-name" placeholder="Enter full name" autocomplete="off" />
+            </div>
+
+            <!-- Birthday -->
+            <div class="form-group">
+              <label for="f-birthday"><span class="req"></span> Date of Birth</label>
+              <div class="input-wrap">
+                <input type="text" id="f-birthday" placeholder="DD/MM/YYYY" maxlength="10" autocomplete="off" inputmode="numeric" />
+                <span class="bday-hint" id="bday-hint"></span>
+              </div>
+            </div>
+
+            <!-- School (External only) -->
+            <div class="form-group hidden" id="grp-school">
+              <label for="f-school"><span class="req"></span> School</label>
+              <select id="f-school">
+                <option value="">— Select School —</option>
+                <option value="Nalanda (Boys') National College">Nalanda (Boys') National College</option>
+                <option value="Nalanda (Girls') Central College">Nalanda (Girls') Central College</option>
+                <option value="Senarath Paranavithana National School">Senarath Paranavithana National School</option>
+                <option value="Reggie Ranathunga Science College">Reggie Ranathunga Science College</option>
+                <option value="Other">Other (type below)</option>
+              </select>
+            </div>
+
+            <!-- Other School -->
+            <div class="form-group hidden" id="grp-school-other">
+              <label for="f-school-other"><span class="req"></span> Specify School</label>
+              <input type="text" id="f-school-other" placeholder="Enter school name" autocomplete="off" />
+            </div>
+
+            <!-- Grade -->
+            <div class="form-group">
+              <label for="f-grade"><span class="req"></span> Grade</label>
+              <select id="f-grade" onchange="onGradeChange()">
+                <option value="">— Select Grade —</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+                <option value="Grade 13">Grade 13</option>
+                <option value="After O/L">After O/L</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Stream (Grade 12/13 only) -->
+            <div class="form-group hidden" id="grp-stream">
+              <label for="f-stream"><span class="req"></span> Stream</label>
+              <select id="f-stream">
+                <option value="">— Select Stream —</option>
+                <option value="Physical Science">Physical Science</option>
+                <option value="Biological Science">Biological Science</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Arts">Arts</option>
+                <option value="Technology">Technology</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Contact -->
+            <div class="form-group">
+              <label for="f-contact"><span class="req"></span> Contact Number</label>
+              <input type="tel" id="f-contact" placeholder="07XXXXXXXX" autocomplete="off" inputmode="numeric" maxlength="10" />
+            </div>
+
+            <div class="kb-hint">
+              <kbd>Enter</kbd> advances fields · <kbd>Enter</kbd> on last submits
+            </div>
+
+            <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+              <span>✅</span>
+              <span>Register Participant</span>
+            </button>
+          </form>
+        </div>
+        <div class="status-bar">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="status-text">Ready – syncing to Google Sheets</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Utilities + Table -->
+    <section class="right-col">
+      <div class="util-bar">
+        <button class="util-btn export" onclick="exportCSV()">⬇️ Export CSV</button>
+        <button class="util-btn danger" onclick="openModal()">🗑️ Clear All Data</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">📋</div>
+          <span class="card-title">Live Registrations</span>
+        </div>
+        <div class="table-wrapper">
+          <table class="reg-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TYPE</th>
+                <th>NAME</th>
+                <th>SCHOOL</th>
+                <th>GRADE</th>
+                <th>STREAM</th>
+                <th>CONTACT</th>
+              </tr>
+            </thead>
+            <tbody id="reg-tbody"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state">
+            <div class="ei">📝</div>
+            No registrations yet. Start registering participants!
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ============================================================
+    // APP CONFIGURATION
+    // ============================================================
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYPyANotU50C8_lzX9o51ahuRD0rtwgtRvjJ2SDYZ9LEkQzrK0gOJeB60xgcQX9k65OA/exec";
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    let participantType = 'internal';
+    let registrations = [];
+
+    // ============================================================
+    // DOM REFERENCES
+    // ============================================================
+    const fName = document.getElementById('f-name');
+    const fBirthday = document.getElementById('f-birthday');
+    const fSchool = document.getElementById('f-school');
+    const fSchoolOther = document.getElementById('f-school-other');
+    const fGrade = document.getElementById('f-grade');
+    const fStream = document.getElementById('f-stream');
+    const fContact = document.getElementById('f-contact');
+    const grpSchool = document.getElementById('grp-school');
+    const grpSchoolOther = document.getElementById('grp-school-other');
+    const grpStream = document.getElementById('grp-stream');
+
+    // ============================================================
+    // INITIALIZATION
+    // ============================================================
+    function init() {
+      try {
+        const saved = localStorage.getItem('ict_registrations');
+        if (saved) registrations = JSON.parse(saved);
+      } catch (e) {
+        console.warn('Failed to load from localStorage');
+      }
+      
+      renderTable();
+      updateCounters();
+      setupKeyboardNav();
+      setupBirthdayFmt();
+      setupSchoolDropdown();
+      setupContactValidation();
+      setType('internal');
+      fName.focus();
+    }
+
+    // ============================================================
+    // PARTICIPANT TYPE HANDLER
+    // ============================================================
+    function setType(type) {
+      participantType = type;
+      document.getElementById('btn-internal').classList.toggle('active', type === 'internal');
+      document.getElementById('btn-external').classList.toggle('active', type === 'external');
+      
+      if (type === 'internal') {
+        grpSchool.classList.add('hidden');
+        grpSchoolOther.classList.add('hidden');
+        fSchool.value = '';
+        fSchoolOther.value = '';
+      } else {
+        grpSchool.classList.remove('hidden');
+      }
+    }
+
+    // ============================================================
+    // SCHOOL DROPDOWN HANDLER
+    // ============================================================
+    function setupSchoolDropdown() {
+      fSchool.addEventListener('change', function() {
+        if (this.value === 'Other') {
+          grpSchoolOther.classList.remove('hidden');
+          fSchoolOther.focus();
+        } else {
+          grpSchoolOther.classList.add('hidden');
+          fSchoolOther.value = '';
+        }
+      });
+    }
+
+    // ============================================================
+    // GRADE CHANGE HANDLER
+    // ============================================================
+    function onGradeChange() {
+      const grade = fGrade.value;
+      if (grade === 'Grade 12' || grade === 'Grade 13') {
+        grpStream.classList.remove('hidden');
+      } else {
+        grpStream.classList.add('hidden');
+        fStream.value = '';
+      }
+    }
+
+    // ============================================================
+    // BIRTHDAY FORMATTING
+    // ============================================================
+    function setupBirthdayFmt() {
+      fBirthday.addEventListener('input', function() {
+        const digits = this.value.replace(/\D/g, '').substring(0, 8);
+        let formatted = digits.substring(0, 2);
+        if (digits.length >= 3) formatted += '/' + digits.substring(2, 4);
+        if (digits.length >= 5) formatted += '/' + digits.substring(4, 8);
+        this.value = formatted;
+        
+        const hint = document.getElementById('bday-hint');
+        hint.textContent = formatted.length < 10 ? 'DD/MM/YYYY'.substring(formatted.length) : '';
+      });
+
+      fBirthday.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace') {
+          const pos = this.selectionStart;
+          if (pos > 0 && this.value[pos - 1] === '/') {
+            this.value = this.value.substring(0, pos - 1) + this.value.substring(pos);
+            e.preventDefault();
+          }
+        }
+      });
+    }
+
+    // ============================================================
+    // CONTACT VALIDATION (10 digits)
+    // ============================================================
+    function setupContactValidation() {
+      fContact.addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+      });
+
+      fContact.addEventListener('keydown', function(e) {
+        if (e.key.length === 1 && !/[0-9]/.test(e.key) && 
+            !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'].includes(e.key) && 
+            !e.key.startsWith('Arrow')) {
+          e.preventDefault();
+        }
+      });
+    }
+
+    // ============================================================
+    // KEYBOARD NAVIGATION
+    // ============================================================
+    function setupKeyboardNav() {
+      document.getElementById('reg-form').addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        
+        const fields = getVisibleFields();
+        const idx = fields.indexOf(document.activeElement);
+        if (idx === -1) return;
+        
+        if (idx < fields.length - 1) {
+          fields[idx + 1].focus();
+        } else {
+          handleSubmit();
+        }
+      });
+    }
+
+    function getVisibleFields() {
+      const fields = [fName, fBirthday];
+      
+      if (participantType === 'external') {
+        fields.push(fSchool);
+        if (fSchool.value === 'Other') fields.push(fSchoolOther);
+      }
+      
+      fields.push(fGrade);
+      if (fGrade.value === 'Grade 12' || fGrade.value === 'Grade 13') {
+        fields.push(fStream);
+      }
+      fields.push(fContact);
+      
+      return fields;
+    }
+
+    // ============================================================
+    // BIRTHDAY VALIDATION
+    // ============================================================
+    function validateBday(str) {
+      if (!str || str.length !== 10) return false;
+      
+      const [dd, mm, yyyy] = str.split('/').map(Number);
+      if (!dd || !mm || !yyyy || yyyy < 1900 || yyyy > new Date().getFullYear()) return false;
+      
+      const date = new Date(yyyy, mm - 1, dd);
+      return date.getDate() === dd && 
+             date.getMonth() === mm - 1 && 
+             date.getFullYear() === yyyy;
+    }
+
+    // ============================================================
+    // FORM SUBMISSION
+    // ============================================================
+    async function handleSubmit() {
+      const name = fName.value.trim();
+      const bday = fBirthday.value.trim();
+      const grade = fGrade.value;
+      const stream = fStream.value;
+      const contact = fContact.value.trim();
+
+      // Resolve school value
+      let school;
+      if (participantType === 'internal') {
+        school = "President's College, Minuwangoda";
+      } else if (fSchool.value === 'Other') {
+        school = fSchoolOther.value.trim();
+      } else {
+        school = fSchool.value;
+      }
+
+      // Validation
+      if (!name) {
+        showToast('Name is required', 'error');
+        fName.focus();
+        return;
+      }
+      
+      if (!validateBday(bday)) {
+        showToast('Enter a valid date (DD/MM/YYYY)', 'error');
+        fBirthday.focus();
+        return;
+      }
+      
+      if (participantType === 'external') {
+        if (!fSchool.value) {
+          showToast('Please select a school', 'error');
+          fSchool.focus();
+          return;
+        }
+        if (fSchool.value === 'Other' && !school) {
+          showToast('Please specify the school name', 'error');
+          fSchoolOther.focus();
+          return;
+        }
+      }
+      
+      if (!grade) {
+        showToast('Please select a Grade', 'error');
+        fGrade.focus();
+        return;
+      }
+      
+      if ((grade === 'Grade 12' || grade === 'Grade 13') && !stream) {
+        showToast('Please select a Stream', 'error');
+        fStream.focus();
+        return;
+      }
+      
+      if (!contact) {
+        showToast('Contact Number is required', 'error');
+        fContact.focus();
+        return;
+      }
+      
+      if (contact.length !== 10) {
+        showToast('Contact Number must be 10 digits', 'error');
+        fContact.focus();
+        return;
+      }
+
+      const record = {
+        id: Date.now(),
+        participantType,
+        name,
+        birthday: bday,
+        school,
+        grade,
+        stream: stream || '—',
+        contact,
+        timestamp: new Date().toISOString(),
+      };
+
+      registrations.unshift(record);
+      saveLocal();
+      renderTable();
+      updateCounters();
+      resetForm();
+      showToast(`✅ ${name} registered!`);
+      sendToSheets(record);
+    }
+
+    // ============================================================
+    // GOOGLE SHEETS SYNC
+    // ============================================================
+    async function sendToSheets(record) {
+      if (SCRIPT_URL === "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") return;
+      
+      setStatus(false, 'Syncing…');
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+        setStatus(true, 'Synced to Google Sheets');
+      } catch (err) {
+        console.error('Sync failed:', err);
+        setStatus(false, 'Offline – saved locally');
+        showToast('⚠️ Sync failed – saved locally', 'warning');
+      }
+    }
+
+    // ============================================================
+    // LOCAL STORAGE
+    // ============================================================
+    function saveLocal() {
+      localStorage.setItem('ict_registrations', JSON.stringify(registrations));
+    }
+
+    // ============================================================
+    // FORM RESET
+    // ============================================================
+    function resetForm() {
+      fName.value = '';
+      fBirthday.value = '';
+      document.getElementById('bday-hint').textContent = '';
+      fSchool.value = '';
+      fSchoolOther.value = '';
+      grpSchoolOther.classList.add('hidden');
+      fGrade.value = '';
+      fStream.value = '';
+      fContact.value = '';
+      grpStream.classList.add('hidden');
+      fName.focus();
+    }
+
+    // ============================================================
+    // COUNTERS
+    // ============================================================
+    function updateCounters() {
+      bump('cnt-internal', registrations.filter(r => r.participantType === 'internal').length, 'counter-internal');
+      bump('cnt-external', registrations.filter(r => r.participantType === 'external').length, 'counter-external');
+      bump('cnt-total', registrations.length, 'counter-total');
+    }
+
+    function bump(valueId, newValue, cardId) {
+      const valueEl = document.getElementById(valueId);
+      const cardEl = document.getElementById(cardId);
+      
+      if (parseInt(valueEl.textContent, 10) === newValue) return;
+      
+      valueEl.textContent = newValue;
+      valueEl.classList.add('bump');
+      cardEl.classList.add('highlight-update');
+      
+      setTimeout(() => valueEl.classList.remove('bump'), 300);
+      setTimeout(() => cardEl.classList.remove('highlight-update'), 800);
+    }
+
+    // ============================================================
+    // TABLE RENDERING (with data-label for mobile)
+    // ============================================================
+    function renderTable() {
+      const tbody = document.getElementById('reg-tbody');
+      const emptyState = document.getElementById('empty-state');
+      
+      if (!registrations.length) {
+        tbody.innerHTML = '';
+        emptyState.style.display = '';
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      
+      let html = '';
+      for (let i = 0; i < registrations.length; i++) {
+        const r = registrations[i];
+        const rowNum = registrations.length - i;
+        const badgeClass = r.participantType === 'internal' ? 'badge internal' : 'badge external';
+        const badgeText = r.participantType === 'internal' ? '🏫 Int' : '🌐 Ext';
+
+        html += `<tr class="${i === 0 ? 'row-new' : ''}">
+          <td class="num-cell" data-label="#">${rowNum}</td>
+          <td data-label="TYPE"><span class="${badgeClass}">${badgeText}</span></td>
+          <td data-label="NAME"><strong>${escapeHtml(r.name)}</strong></td>
+          <td data-label="SCHOOL">${escapeHtml(r.school)}</td>
+          <td data-label="GRADE">${escapeHtml(r.grade)}</td>
+          <td data-label="STREAM">${escapeHtml(r.stream)}</td>
+          <td data-label="CONTACT">${escapeHtml(r.contact)}</td>
+        </tr>`;
+      }
+      tbody.innerHTML = html;
+    }
+
+    // ============================================================
+    // HTML ESCAPE (XSS Protection)
+    // ============================================================
+    function escapeHtml(s) {
+      if (s === undefined || s === null) return '';
+      if (typeof s === 'string' && (s.includes('<span') || s.includes('<strong'))) {
+        return s;
+      }
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // ============================================================
+    // EXPORT CSV
+    // ============================================================
+    function exportCSV() {
+      if (!registrations.length) {
+        showToast('No registrations to export', 'warning');
+        return;
+      }
+
+      const headers = ['#', 'Type', 'Name', 'Birthday', 'School', 'Grade', 'Stream', 'Contact', 'Timestamp'];
+      const rows = registrations.map((r, i) => [
+        registrations.length - i,
+        r.participantType,
+        r.name,
+        r.birthday,
+        r.school,
+        r.grade,
+        r.stream,
+        r.contact,
+        r.timestamp
+      ].map(v => `"${String(v).replace(/"/g, '""')}"`));
+
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      
+      link.href = url;
+      link.download = `registrations-${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      
+      URL.revokeObjectURL(url);
+      showToast(`📥 Exported ${registrations.length} records`);
+    }
+
+    // ============================================================
+    // MODAL CONTROLS
+    // ============================================================
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    document.getElementById('modal-overlay').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+    
+    document.getElementById('modal-confirm').addEventListener('click', () => {
+      registrations = [];
+      saveLocal();
+      renderTable();
+      updateCounters();
+      closeModal();
+      showToast('🗑️ All data cleared', 'warning');
+    });
+
+    // ============================================================
+    // STATUS BAR
+    // ============================================================
+    function setStatus(online, message) {
+      document.getElementById('status-dot').className = 'status-dot' + (online ? '' : ' offline');
+      document.getElementById('status-text').textContent = message;
+    }
+
+    // ============================================================
+    // TOAST NOTIFICATIONS
+    // ============================================================
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      toast.className = `toast ${type !== 'success' ? type : ''}`;
+      toast.textContent = message;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.animation = 'slideIn 0.3s reverse';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // ============================================================
+    // LEGACY ESCAPE FUNCTION (backward compatibility)
+    // ============================================================
+    function escHtml(s) {
+      if (typeof s !== 'string') return s;
+      return s.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;');
+    }
+
+    // Start the application
+    init();
+  </script>
+</body>
+</html>
